@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Product REST service</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/wingcss/0.1.8/wing.min.css" />
+<!-- Load AngularJS -->
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module("UsuarioManagement", []);
+
+	//Controller Part
+	app.controller("UsuarioManagementController", function($scope, $http) {
+
+		//Initialize page with default data which is blank in this example
+		$scope.usuarios = [];
+
+		$scope.form = {
+			nombre : "",
+			username : "",
+			a_paterno : "",
+			a_materno : "",
+			correo : "",
+			telefono : "",
+			role : ""
+		};
+
+		//Now load the data from server
+		_refreshPageData();
+		_getRoles();
+
+		//HTTP POST methods for add products
+		$scope.add = function() {
+			var data = {
+				"nombre" : $scope.form.nombre,
+				"username" : $scope.form.username,
+				"a_paterno" : $scope.form.a_paterno,
+				"a_materno" : $scope.form.a_materno,
+				"correo" : $scope.form.correo,
+				"telefono" : $scope.form.telefono
+			};
+			var id = $scope.form.role;
+
+			$http({
+				method : "POST",
+				url : '/app/role/'+id,
+				data : angular.toJson(data),
+				headers : {
+					'Content-Type' : 'application/json'
+				}
+			}).then(_success, _error);
+		};
+
+		/* Private Methods */
+		//HTTP GET- get all products collection
+		function _refreshPageData() {
+			$http({
+				method : 'GET',
+				url : '/app/usuarios'
+			}).then(function successCallback(response) {
+				$scope.usuarios = response.data;
+			}, function errorCallback(response) {
+				console.log(response.statusText);
+			});
+		}
+
+		function _getRoles() {
+			$http({
+				method : 'GET',
+				url : '/roles'
+			}).then(function successCallback(response) {
+				$scope.roles = response.data;
+			}, function errorCallback(response) {
+				console.log(response.statusText);
+			});
+		}
+
+		function _success(response) {
+			_refreshPageData();
+			_clearForm();
+		}
+
+		function _error(response) {
+			alert(response.data.message || response.statusText);
+		}
+
+		//Clear the form
+		function _clearForm() {
+			$scope.form.nombre = "";
+			$scope.form.username = "";
+			$scope.form.a_paterno = "";
+			$scope.form.a_materno = "";
+			$scope.form.correo = "";
+			$scope.form.telefono = "";
+			$scope.form.role = "";
+		}
+	});
+</script>
+</head>
+<body ng-app="UsuarioManagement"
+	ng-controller="UsuarioManagementController">
+
+	<div class="container">
+		<h1>REST Service - Usuario</h1>
+
+		<h3>Nuevo Usuario</h3>
+		<form ng-submit="add()">
+			<div class="row">
+				<div class="col-6">
+					<input type="text" placeholder="nombre" ng-model="form.nombre"
+						size="60" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<input type="text" placeholder="a_paterno"
+						ng-model="form.a_paterno" size="60" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<input type="text" placeholder="a_materno"
+						ng-model="form.a_materno" size="60" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<input type="text" placeholder="username" ng-model="form.username"
+						size="60" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<input type="text" placeholder="correo" ng-model="form.correo"
+						size="60" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<input type="text" placeholder="telefono" ng-model="form.telefono"
+						size="60" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<select ng-model="form.role" >
+						<option value="{{rol.id}}"   ng-repeat="rol in roles">{{rol.nombre}}</option>
+					</select>
+
+				</div>
+			</div>
+			<input type="submit" value="Save" />
+		</form>
+
+		<h3>Lista de Usuarios</h3>
+		<div class="row">
+			<div class="col-1">Nombre</div>
+			<div class="col-2">A Paterno</div>
+			<div class="col-2">A Materno</div>
+			<div class="col-1">Username</div>
+			<div class="col-3">Correo</div>
+			<div class="col-2">Telefono</div>
+			<div class="col-1">ROL</div>
+		</div>
+		<div class="row" ng-repeat="usuario in usuarios">
+			<div class="col-1">{{ usuario.nombre }}</div>
+			<div class="col-2">{{ usuario.a_paterno }}</div>
+			<div class="col-2">{{ usuario.a_materno }}</div>
+			<div class="col-1">{{ usuario.username }}</div>
+			<div class="col-3">{{ usuario.correo }}</div>
+			<div class="col-2">{{ usuario.telefono }}</div>
+			<div class="col-1">{{ usuario.rol.nombre }}</div>
+		</div>
+	</div>
+
+</body>
+</html>
