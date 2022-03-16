@@ -15,11 +15,13 @@ public class Usuario extends ReactivePanacheMongoEntity{
 	
 	public TRole rol;
 	
+	public String password;
+	
 	public Usuario() {
 		
 	}
 
-	public Usuario(String nombre, String a_paterno, String a_materno, String username, String correo, String telefono,  TRole rol) {
+	public Usuario(String nombre, String a_paterno, String a_materno, String username, String correo, String telefono,  TRole rol, String password) {
 		this.nombre = nombre;
 		this.a_paterno = a_paterno;
 		this.a_materno = a_materno;
@@ -27,6 +29,7 @@ public class Usuario extends ReactivePanacheMongoEntity{
 		this.correo = correo;
 		this.telefono = telefono;
 		this.rol = rol;
+		this.password = password;
 	}
 
 	public String getNombre() {
@@ -83,6 +86,14 @@ public class Usuario extends ReactivePanacheMongoEntity{
 
 	public void setRol(TRole rol) {
 		this.rol = rol;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	

@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,6 +29,7 @@ public class UsuarioController {
 	
 	@GET
 	@Path("/usuarios")
+	@RolesAllowed({ "ADMIN","CNOC"})
 	public Response get() {
 		List<Usuario> usuarioServiceList = null;
 		try {
@@ -40,13 +42,15 @@ public class UsuarioController {
 	
 	@POST
 	@Path("/role/{id}")
-	public Response create (@PathParam("id") ObjectId id, Usuario usuario) throws URISyntaxException {
+	@RolesAllowed({ "ADMIN","CNOC"})
+	public Response create (@PathParam("id") String id, Usuario usuario) throws URISyntaxException {
 		usuarioService.createUser(id, usuario);
 		return Response.created(new URI("/" + usuario.id)).build();
 	}
 	
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({ "ADMIN","CNOC"})
 	public Response update(@PathParam("id") ObjectId id, Usuario usuario) {
 		Usuario usuarioActual= null;
 		try {

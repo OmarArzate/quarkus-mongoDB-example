@@ -14,13 +14,14 @@
 
         //Initialize page with default data which is blank in this example
         $scope.roles = [];
+        $scope.login =[];
 
         $scope.form = {
           nombre: ""
         };
 
         //Now load the data from server
-        _refreshPageData();
+        _inicia();
 
         //HTTP POST methods for add products
         $scope.add = function () {
@@ -31,7 +32,8 @@
             url: '/roles',
             data: angular.toJson(data),
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization' : 'Bearer ' + $scope.login.token
             }
           }).then(_success, _error);
         };
@@ -41,6 +43,9 @@
         function _refreshPageData() {
           $http({
             method: 'GET',
+            headers : {
+				'Authorization' : 'Bearer ' + $scope.login.token
+			},
             url: '/roles'
           }).then(function successCallback(response) {
             $scope.roles = response.data;
@@ -63,11 +68,32 @@
         function _clearForm() {
           $scope.form.nombre = "";
         }
+        
+		function _inicia() {
+	          var data = { "username": "rcastro",
+	        		  "password": "12345"};
+	          
+	          $http({
+	            method: "POST",
+	            url: '/auth/login',
+	            data: angular.toJson(data),
+	            headers: {
+	              'Content-Type': 'application/json'
+	            }
+	          }).then(function successCallback(response) {
+	            $scope.login = response.data;
+	            _refreshPageData();
+	          }, function errorCallback(response) {
+	            console.log(response.statusText);
+	          });
+	        };
       });
     </script>
 </head>
 <body ng-app="RolesManagement" ng-controller="RolesManagementController">
-
+<div class="container">
+<a href="/usuario.html">ir a usuarios</a>
+</div>
 <div class="container">
   <h1>REST Service - Rol</h1>
 

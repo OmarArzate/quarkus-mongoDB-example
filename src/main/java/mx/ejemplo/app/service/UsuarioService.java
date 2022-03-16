@@ -11,8 +11,10 @@ public interface UsuarioService {
 	public List<Usuario> findAll();
 
 	public Usuario findById(ObjectId id);
+	
+	public Usuario findByUserName(String username);
 
-	public void createUser(ObjectId id, Usuario usuario);
+	public void createUser(String id, Usuario usuario);
 
 	public void updateUser(Usuario usuario);
 }

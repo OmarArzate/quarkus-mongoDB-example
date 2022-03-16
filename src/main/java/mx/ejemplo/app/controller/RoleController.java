@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +21,7 @@ public class RoleController {
 	RoleService roleService;
 	
 	@GET
+	@RolesAllowed({ "ADMIN","CNOC"})
 	public Response getRoles(){
 		List<TRole> rolServiceList = null;
 		try {
@@ -31,6 +33,7 @@ public class RoleController {
 	}
 	
 	@POST
+	@RolesAllowed({ "ADMIN","CNOC"})
 	public Response create (TRole role) throws URISyntaxException {
 		roleService.createRole(role);
 		return Response.created(new URI("/" + role.id)).build();

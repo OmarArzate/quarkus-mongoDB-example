@@ -11,24 +11,22 @@ import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import io.quarkus.panache.common.Sort;
 import mx.ejemplo.app.model.TRole;
 import mx.ejemplo.app.model.Usuario;
+import mx.ejemplo.app.utils.PBKDF2Encoder;
 
 @ApplicationScoped
 public class UsuarioDAO implements PanacheMongoRepository<Usuario>{
 	
-	@Inject
-	RoleDAO roleDao;
+
 
 	public List<Usuario> findAllUsers(){
 		return  listAll(Sort.by("nombre"));
 	}
 	
-	public Usuario findByName(String name) {
-		return  find("nombre", name ).firstResult();
+	public Usuario findByUserName(String username) {
+		return  find("username", username ).firstResult();
 	}
 	
-	public void createUser(ObjectId id, Usuario usuario) {
-		TRole rol = roleDao.findById(id);
-		usuario.setRol(rol);
+	public void createUser(Usuario usuario) {
 		persist(usuario); 
 	}
 	
