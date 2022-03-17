@@ -12,5 +12,9 @@ public interface RoleService {
 
 	public void createRole(TRole role);
 
-	public TRole findById(ObjectId id);
+	public void updateRole(String id, TRole role);
+
+	public TRole findById(String id);
+
+	public void delete(String id);
 }

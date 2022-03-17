@@ -30,9 +30,29 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public TRole findById(ObjectId id) {
-		// TODO Auto-generated method stub
-		return roleDao.findById(id);
+	public TRole findById(String id) {
+		ObjectId idO = new ObjectId(id);
+		return roleDao.findById(idO);
+	}
+
+	@Override
+	public void delete(String id) {
+		ObjectId idO = new ObjectId(id);
+		TRole role = roleDao.findById(idO);
+		roleDao.delete(role);
+	}
+
+	@Override
+	public void updateRole(String id, TRole role) {
+		ObjectId idO = new ObjectId(id);
+		TRole roleActual = null;		
+		try {
+			roleActual = roleDao.findById(idO);
+		    roleActual.setNombre(role.getNombre());
+		}catch(Exception e){
+		   	
+		}
+		roleDao.update(roleActual);
 	}
 
 }

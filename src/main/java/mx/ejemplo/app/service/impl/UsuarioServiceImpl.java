@@ -43,20 +43,40 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public void  updateUser(Usuario usuario) {
-		usuarioDao.updateUser(usuario);
+	public void  updateUser(Usuario usuario,String id) {
+		Usuario usuarioActual = null;
+		try {
+			usuarioActual = findById(id);
+		    usuarioActual.setNombre(usuario.getNombre());
+		    usuarioActual.setA_paterno(usuario.getA_paterno());
+		    usuarioActual.setA_materno(usuario.getA_materno());
+		    usuarioActual.setUsername(usuario.getUsername());
+		    usuarioActual.setCorreo(usuario.getCorreo());
+		    usuarioActual.setTelefono(usuario.getTelefono());
+		    usuarioActual.setRol(usuario.getRol());
+		}catch(Exception e){
+			
+		}
+
+		usuarioDao.updateUser(usuarioActual);
 	}
 
 	@Override
-	public Usuario findById(ObjectId id) {
-		// TODO Auto-generated method stub
-		return usuarioDao.findById(id);
+	public Usuario findById(String id) {
+		ObjectId idO = new ObjectId(id);
+		return usuarioDao.findById(idO);
 	}
 
 	@Override
 	public Usuario findByUserName(String username) {
 		// TODO Auto-generated method stub
 		return usuarioDao.findByUserName(username);
+	}
+
+	@Override
+	public void delete(String id) {
+		Usuario deleteUser = findById(id);
+		usuarioDao.delete(deleteUser);
 	}
 
 }

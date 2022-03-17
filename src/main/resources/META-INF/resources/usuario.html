@@ -67,7 +67,6 @@
 				url : '/app/usuarios'
 			}).then(function successCallback(response) {
 				$scope.usuarios = response.data;
-				console.log(response.data);
 			}, function errorCallback(response) {
 				console.log(response.statusText);
 			});

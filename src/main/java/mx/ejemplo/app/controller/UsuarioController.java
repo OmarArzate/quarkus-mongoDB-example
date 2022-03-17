@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -51,24 +52,16 @@ public class UsuarioController {
 	@PUT
 	@Path("/{id}")
 	@RolesAllowed({ "ADMIN","CNOC"})
-	public Response update(@PathParam("id") ObjectId id, Usuario usuario) {
-		Usuario usuarioActual= null;
-		try {
-			usuarioActual = usuarioService.findById(id);
-		    usuarioActual.setNombre(usuario.getNombre());
-		    usuarioActual.setA_paterno(usuario.getA_paterno());
-		    usuarioActual.setA_materno(usuario.getA_materno());
-		    usuarioActual.setUsername(usuario.getUsername());
-		    usuarioActual.setCorreo(usuario.getCorreo());
-		    usuarioActual.setTelefono(usuario.getTelefono());
-		    usuarioActual.setRol(usuario.getRol());
-
-			usuarioService.updateUser(usuarioActual);
-		}catch(Exception e){
-			LOG.info("entro al cathc");
-		}
-//		
-//		usuarioService.updateUser(usuarioActual);
+	public Response update(@PathParam("id") String id, Usuario usuario) {
+		usuarioService.updateUser(usuario,id);
 		return Response.ok(usuario).build();
 	}
+
+	@DELETE
+	@Path("/{id}")
+	public Response delete( @PathParam("id") String id){
+		usuarioService.delete(id);
+		return Response.ok().build();
+	}
+
 }

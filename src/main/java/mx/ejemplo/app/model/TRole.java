@@ -13,4 +13,12 @@ public class TRole extends ReactivePanacheMongoEntity{
 	public TRole(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public String getNombre(){
+		return this.nombre;
+	}
+
+	public String setNombre(String nombre){
+		return this.nombre = nombre;
+	}
 }
