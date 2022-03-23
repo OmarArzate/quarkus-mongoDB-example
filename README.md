@@ -40,7 +40,7 @@ Para el catalogo Estatus podemos realizarlo con la plantilla que viene por defec
 - Agregar estatus -> `http://localhost:8080/estatus.html`
    Nota: Se recomienda agregar dos registros como minimo 1.- Primer ingreso   2.- Activo
 
-![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/tree/main/src/main/resources/img/estatus.jpg)
+![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/estatus.png)
 
 - Una vez agregados los estatus, entrar en la clase EConstante y asignarle el valor del id a las variables para su buen funcionamiento, esto debido a que el proyecto 
   requiere estos dos id para la buena ejecucion de validaciones e insercciones posteriores 
