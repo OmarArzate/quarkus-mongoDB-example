@@ -45,23 +45,23 @@ Para el catalogo Estatus podemos realizarlo con la plantilla que viene por defec
 - Una vez agregados los estatus, entrar en la clase EConstante y asignarle el valor del id a las variables para su buen funcionamiento, esto debido a que el proyecto 
   requiere estos dos id para la buena ejecucion de validaciones e insercciones posteriores 
 
-![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/tree/main/src/main/resources/img/constantes.jpg)
+![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/constantes.png)
 
 - Agregar roles -> `http://localhost:8080/roles`
-![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/tree/main/src/main/resources/img/roles.jpg)
+![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/roles.jpg)
 
 
 Con lo anterior realizado podemos realizar la creacion de un usuario tanto desde los swagger, postman o desde la siguiente interfaz
 
 - Crear un usuario -> `http://localhost:8080/usuario.html`
-![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/tree/main/src/main/resources/img/usuarios.jpg)
+![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/usuarios.jpg)
 
 Podemos realizar la generacion de un token desde el swagger o postman con el username y contraseña
 
-![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/tree/main/src/main/resources/img/generartoken.jpg)
+![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/generartoken.jpg)
 
 -podemos ver la validacion de tiempo de expiracion de una contraseña cambiando el parametro en la clase Usuario por ejemplo poniendole 1L al valor.
  y despues volver a probar al generar un token
-![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/tree/main/src/main/resources/img/expiracioncontrase.jpg)
+![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/expiracioncontrase.jpg)
 
 -Una vez creado todo lo anterior, podemos habilitar el acceso a ciertos perfiles, descomentando en los controller //@RolesAllowed({ "ADMIN","CNOC"}) para dar acceso  solo a roles del tipo que utilicemos
