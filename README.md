@@ -56,7 +56,7 @@ Con lo anterior realizado podemos realizar la creacion de un usuario tanto desde
 - Crear un usuario -> `http://localhost:8080/usuario.html`
 ![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/usuarios.png)
 
-Podemos realizar la generacion de un token desde el swagger o postman con el username y contraseña
+Podemos realizar la generacion de un token desde el swagger `http://localhost:8080/q/swagger-ui/#` o postman con el username y contraseña
 
 ![image text](https://github.com/OmarArzate/quarkus-mongoDB-example/blob/main/src/main/resources/img/generartoken.png)
 
