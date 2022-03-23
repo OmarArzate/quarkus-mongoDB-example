@@ -1,59 +1,67 @@
 # mongo-rest-app Project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Este es un proyecto que tiene como primera finalidad aprender el uso de quarkus con una BD Mongo, implementando funcionalidad tal cual un CRUD, tambien la generacion de un token, y la validacion de creacion de contraseña.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+---
+# Requisito de sistema
 
-## Running the application in dev mode
+- Java Open jdk 11
+- GraalVM
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
+---
+# Extensiones
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+- quarkus-resteasy-reactive-jsonb
+- quarkus-smallrye-openapi
+- quarkus-mongodb-panache
+- log4j2-jboss-logmanager
+- quarkus-resteasy-reactive
+- quarkus-smallrye-jwt-build
+- quarkus-smallrye-jwt
 
-## Packaging and running the application
+---
+# Ejecutar proyecto
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+- Windows cmd
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+    `mvnw compile quarkus:dev`
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+- Linux bash
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+    `./mvnw compile quarkus:dev`
 
-## Creating a native executable
+---
 
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
+# Pruebas  
+Primero es necesario crear nuevos registros dentro de los catalosgos  "Estatus"  y "Role" para generar id's que nos serviran para probar la herramienta.
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+Para el catalogo Estatus podemos realizarlo con la plantilla que viene por defecto
 
-You can then execute your native executable with: `./target/mongo-rest-app-1.0.0-SNAPSHOT-runner`
+- Agregar estatus -> `http://localhost:8080/estatus.html`
+   Nota: Se recomienda agregar dos registros como minimo 1.- Primer ingreso   2.- Activo
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+![image text](https://github.com/Art-byte/QuarkusDeveloper/blob/main/quarkus-simple-mongo/src/main/images/Post.jpg)
 
-## Related Guides
+- Una vez agregados los estatus, entrar en la clase EConstante y asignarle el valor del id a las variables para su buen funcionamiento, esto debido a que el proyecto 
+  requiere estos dos id para la buena ejecucion de validaciones e insercciones posteriores 
+
+![image text](https://github.com/Art-byte/QuarkusDeveloper/blob/main/quarkus-simple-mongo/src/main/images/Post.jpg)
+
+- Agregar roles -> `http://localhost:8080/roles`
+![image text](https://github.com/Art-byte/QuarkusDeveloper/blob/main/quarkus-simple-mongo/src/main/images/GetAll.jpg)
 
 
-## Provided Code
+Con lo anterior realizado podemos realizar la creacion de un usuario tanto desde los swagger, postman o desde la siguiente interfaz
 
-### RESTEasy Reactive
+- Crear un usuario -> `http://localhost:8080/usuario.html`
+![image text](https://github.com/Art-byte/QuarkusDeveloper/blob/main/quarkus-simple-mongo/src/main/images/GetById.jpg)
 
-Easily start your Reactive RESTful Web Services
+Podemos realizar la generacion de un token desde el swagger o postman con el username y contraseña
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+![image text](https://github.com/Art-byte/QuarkusDeveloper/blob/main/quarkus-simple-mongo/src/main/images/Update.jpg)
+
+-podemos ver la validacion de tiempo de expiracion de una contraseña cambiando el parametro en la clase Usuario por ejemplo poniendole 1L al valor.
+ y despues volver a probar al generar un token
+![image text](https://github.com/Art-byte/QuarkusDeveloper/blob/main/quarkus-simple-mongo/src/main/images/Update.jpg)
+
+-Una vez creado todo lo anterior, podemos habilitar el acceso a ciertos perfiles, descomentando en los controller //@RolesAllowed({ "ADMIN","CNOC"}) para dar acceso  solo a roles del tipo que utilicemos

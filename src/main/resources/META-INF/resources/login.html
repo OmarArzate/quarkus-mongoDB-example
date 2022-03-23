@@ -49,7 +49,7 @@
         }
 
         function _error(response) {
-          alert(response.data.message || response.statusText);
+          alert(response.data || response.statusText);
         }
 
         //Clear the form

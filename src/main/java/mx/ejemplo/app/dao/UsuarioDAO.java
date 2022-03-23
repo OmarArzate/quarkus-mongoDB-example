@@ -26,12 +26,4 @@ public class UsuarioDAO implements PanacheMongoRepository<Usuario>{
 		return  find("username", username ).firstResult();
 	}
 	
-	public void createUser(Usuario usuario) {
-		persist(usuario); 
-	}
-	
-	public void updateUser(Usuario usuario) {
-		update(usuario); 
-	}
-
 }

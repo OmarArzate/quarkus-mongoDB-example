@@ -7,12 +7,12 @@ import javax.enterprise.context.ApplicationScoped;
 
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import io.quarkus.panache.common.Sort;
-import mx.ejemplo.app.model.TRole;
+import mx.ejemplo.app.model.Estatus;
 
 @ApplicationScoped
-public class RoleDAO implements PanacheMongoRepository<TRole>{
+public class EstatusDAO implements PanacheMongoRepository<Estatus>{
 
-	public List<TRole> findAllRoles(){
+	public List<Estatus> findAllRoles(){
 		return  listAll(Sort.by("nombre"));
-	}
+	}	
 }

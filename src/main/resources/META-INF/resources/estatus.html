@@ -2,18 +2,18 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>Product REST service</title>
+  <title>Estatus REST service</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/wingcss/0.1.8/wing.min.css"/>
   <!-- Load AngularJS -->
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script type="text/javascript">
-      var app = angular.module("RolesManagement", []);
+      var app = angular.module("EstatusManagement", []);
 
       //Controller Part
-      app.controller("RolesManagementController", function ($scope, $http) {
+      app.controller("EstatusManagementController", function ($scope, $http) {
 
         //Initialize page with default data which is blank in this example
-        $scope.roles = [];
+        $scope.estatus = [];
         $scope.login =[];
 
         $scope.form = {
@@ -22,7 +22,7 @@
 
         //Now load the data from server
         //_inicia();
-        _refreshPageData()
+        _refreshPageData();
 
         //HTTP POST methods for add products
         $scope.add = function () {
@@ -30,7 +30,7 @@
 
           $http({
             method: "POST",
-            url: '/roles',
+            url: '/estatus',
             data: angular.toJson(data)//,
             // headers: {
             //   'Content-Type': 'application/json',
@@ -47,9 +47,10 @@
       //       headers : {
 			// 	'Authorization' : 'Bearer ' + $scope.login.token
 			// },
-            url: '/roles'
+            url: '/estatus'
           }).then(function successCallback(response) {
-            $scope.roles = response.data;
+            console.log(response.data);
+            $scope.estatus = response.data;
           }, function errorCallback(response) {
             console.log(response.statusText);
           });
@@ -91,17 +92,18 @@
       });
     </script>
 </head>
-<body ng-app="RolesManagement" ng-controller="RolesManagementController">
+<body ng-app="EstatusManagement" ng-controller="EstatusManagementController">
 <div class="container">
 <a href="/usuario.html">ir a usuarios</a>
 </div>
 <div class="container">
-  <a href="/estatus.html">ir a estatus</a>
+  <a href="/roles.html">ir a roles</a>
+
 </div>
 <div class="container">
-  <h1>REST Service - Rol</h1>
+  <h1>REST Service - Estatus</h1>
 
-  <h3>Nuevo rol</h3>
+  <h3>Nuevo estatus</h3>
   <form ng-submit="add()">
     <div class="row">
       <div class="col-6"><input type="text" placeholder="nombre" ng-model="form.nombre" size="60"/></div>
@@ -109,14 +111,14 @@
     <input type="submit" value="Save"/>
   </form>
 
-  <h3>Lista de Roles</h3>
+  <h3>Lista de Estatus</h3>
   <div class="row">
     <div class="col-4">id</div>
     <div class="col-8">nombre</div>
   </div>
-  <div class="row" ng-repeat="role in roles">
-    <div class="col-4">{{ role.id }}</div>
-    <div class="col-8">{{ role.nombre }}</div>
+  <div class="row" ng-repeat="esta in estatus">
+    <div class="col-4">{{ esta.id }}</div>
+    <div class="col-8">{{ esta.nombre }}</div>
   </div>
 </div>
 

@@ -30,7 +30,9 @@
 		};
 
 		//Now load the data from server
-		_inicia();
+		//_inicia();
+		_refreshPageData();
+		_getRoles();
 
 		//HTTP POST methods for add products
 		$scope.add = function() {
@@ -47,12 +49,12 @@
 
 			$http({
 				method : "POST",
-				url : '/app/role/' + id,
-				data : angular.toJson(data),
-				headers : {
-					'Content-Type' : 'application/json',
-					'Authorization' : 'Bearer ' + $scope.login.token
-				}
+				url : 'usuarios/role/' + id,
+				data : angular.toJson(data)//,
+				// headers : {
+				// 	'Content-Type' : 'application/json',
+				// 	'Authorization' : 'Bearer ' + $scope.login.token
+				// }
 			}).then(_success, _error);
 		};
 
@@ -61,10 +63,10 @@
 		function _refreshPageData() {
 			$http({
 				method : 'GET',
-				headers : {
-					'Authorization' : 'Bearer ' + $scope.login.token
-				},
-				url : '/app/usuarios'
+				// headers : {
+				// 	'Authorization' : 'Bearer ' + $scope.login.token
+				// },
+				url : '/usuarios'
 			}).then(function successCallback(response) {
 				$scope.usuarios = response.data;
 			}, function errorCallback(response) {
@@ -75,9 +77,9 @@
 		function _getRoles() {
 			$http({
 				method : 'GET',
-				headers : {
-					'Authorization' : 'Bearer ' + $scope.login.token
-				},
+				// headers : {
+				// 	'Authorization' : 'Bearer ' + $scope.login.token
+				// },
 				url : '/roles'
 			}).then(function successCallback(response) {
 				$scope.roles = response.data;
@@ -92,7 +94,7 @@
 		}
 
 		function _error(response) {
-			alert(response.data.message || response.statusText);
+			alert(response.data || response.statusText);
 		}
 
 		//Clear the form
@@ -136,6 +138,9 @@
 	ng-controller="UsuarioManagementController">
 	<div class="container">
 		<a href="/roles.html">ir a roles</a>
+	</div>
+	<div  class="container">
+		<a href="/estatus.html">ir a estatus</a>
 	</div>
 	<div class="container">
 		<h1>REST Service - Usuario</h1>

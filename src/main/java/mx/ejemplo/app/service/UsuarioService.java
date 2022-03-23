@@ -12,9 +12,11 @@ public interface UsuarioService {
 	
 	public Usuario findByUserName(String username);
 
-	public void createUser(String id, Usuario usuario);
+	public String createUser(String id, Usuario usuario);
 
 	public void updateUser(Usuario usuario, String id);
+	
+	public String updatePassword(String id, String password, String confimrarPass);
 
 	public void delete(String id);
 }

@@ -14,21 +14,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import mx.ejemplo.app.model.TRole;
-import mx.ejemplo.app.service.RoleService;
+import mx.ejemplo.app.model.Estatus;
+import mx.ejemplo.app.service.EstatusService;
 
-@Path("/roles")
-public class RoleController {
+@Path("/estatus")
+public class EstatusController {
 
 	@Inject
-	RoleService roleService;
+	EstatusService estatusService;
 	
 	@GET
 	//@RolesAllowed({ "ADMIN","CNOC"})
-	public Response getRoles(){
-		List<TRole> rolServiceList = null;
+	public Response getEstatus(){
+		List<Estatus> rolServiceList = null;
 		try {
-			rolServiceList = roleService.findAll();
+			rolServiceList = estatusService.findAll();
 		}catch(Exception e){
 			
 		}
@@ -37,22 +37,24 @@ public class RoleController {
 	
 	@POST
 	//@RolesAllowed({ "ADMIN","CNOC"})
-	public Response createRole(TRole role) throws URISyntaxException {
-		roleService.createRole(role);
-		return Response.created(new URI("/" + role.id)).build();
+	public Response createEstatus(Estatus estatus) throws URISyntaxException {
+		estatusService.createEstatus(estatus);
+		return Response.created(new URI("/" + estatus.id)).build();
 	}
 
 	@PUT
 	@Path("/{id}")
-	public Response updateRole(@PathParam("id") String id, TRole role){
-		roleService.updateRole(id, role);
+	//@RolesAllowed({ "ADMIN","CNOC"})
+	public Response updateEstatus(@PathParam("id") String id, Estatus estatus){
+		estatusService.updateEstatus(id, estatus);
 		return Response.ok().build();
 	}
 
 	@DELETE
 	@Path("/{id}")
+	//@RolesAllowed({ "ADMIN","CNOC"})
 	public Response deleteRole(@PathParam("id") String id){
-		roleService.delete(id);
+		estatusService.delete(id);
 		return Response.ok().build();
 	}
 
