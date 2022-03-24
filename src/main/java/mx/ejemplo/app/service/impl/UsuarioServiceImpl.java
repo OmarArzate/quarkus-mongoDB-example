@@ -1,10 +1,15 @@
 package mx.ejemplo.app.service.impl;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
+
+import com.fasterxml.jackson.databind.util.ArrayBuilders;
 
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -48,18 +53,29 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public String createUser(String id, Usuario usuario) {
 
 		if (Utils.validPassword(usuario.password)) {
-			ObjectId idO = new ObjectId(id);
-			String primerIngreso = EConstante.estatusPrimerIngreso;
-			ObjectId idEstatus = new ObjectId(primerIngreso);
+			if(usuario.password != (usuario.username)){
 
-			TRole rol = roleDao.findById(idO);
-			usuario.password = passwordEncoder.encode(usuario.password);
-			Estatus estatus = estatusDao.findById(idEstatus);
-			
-			usuario.setEstatus(estatus);
-			usuario.setRol(rol);
-			usuarioDao.persist(usuario);
-			return "";
+				ObjectId idO = new ObjectId(id);
+				String primerIngreso = EConstante.estatusPrimerIngreso;
+				ObjectId idEstatus = new ObjectId(primerIngreso);
+				
+				TRole rol = roleDao.findById(idO);
+				usuario.password = passwordEncoder.encode(usuario.password);
+				Estatus estatus = estatusDao.findById(idEstatus);
+				
+				/*Aqui se agrega la contraseña en el arreglo de contraseñas antiguas*/
+				ArrayList arrPass = new ArrayList<>();
+				arrPass.add(usuario.password);
+				usuario.setOldPasswords(arrPass);
+				/***/
+				
+				usuario.setEstatus(estatus);
+				usuario.setRol(rol);
+				usuarioDao.persist(usuario);
+				return "";
+			}else{
+				return "La contraseña no puede ser igual al username";
+			}
 
 		} else {
 			LOG.info(" error de contraseña");
@@ -109,27 +125,50 @@ public class UsuarioServiceImpl implements UsuarioService {
 		ObjectId idO = new ObjectId(id);
 		ObjectId idEstatus = new ObjectId(EConstante.estatusActivo);
 		Usuario usuarioActual = usuarioDao.findById(idO);
+		LOG.info(usuarioActual);
 		Estatus estatusActivo = estatusDao.findById(idEstatus);
-		if (Utils.validPassword(password) && Utils.validPassword(confirmarPass) ) {
-			try {
-				if (confirmarPass.equals(password)) {
-					if(usuarioActual.password.equals(passwordEncoder.encode(password))){
-						return "La contraseña nueva no puede ser igual a la contraseña actual";
-					}else{
-					usuarioActual.setPassword(passwordEncoder.encode(password));
-					usuarioActual.setEstatus(estatusActivo);
+		ArrayList arrOldPass = new ArrayList<>();
+		if (Utils.validPassword(password) && Utils.validPassword(confirmarPass)) {
+			if(usuarioActual.username != password){
 
-					usuarioActual.setChangePassword(new Date());
-					usuarioDao.update(usuarioActual);
-					return "";
+				try {
+					if (confirmarPass.equals(password)) {
+						arrOldPass = usuarioActual.getOldPasswords();
+						// if(usuarioActual.password.equals(passwordEncoder.encode(password))){
+							/**Aqui se compara la nueva contraseña con las ya existentes */
+							if (arrOldPass.contains(passwordEncoder.encode(password))) {
+								return "La contraseña nueva no puede ser igual a las contraseñas anteriores";
+							} else {
+								usuarioActual.setPassword(passwordEncoder.encode(password));
+								usuarioActual.setEstatus(estatusActivo);
+								/*Aqui se agrega la contraseña en el arreglo de contraseñas antiguas*/
+								LOG.info("size"+arrOldPass.size());
+								if (arrOldPass.size() < 5) {
+									arrOldPass.add(usuarioActual.password);
+									usuarioActual.setOldPasswords(arrOldPass);
+								} else {
+									Random random = new Random();
+									int posPass = random.nextInt(4) + 0;
+									/**Aqui se sustituye una contraseña antigua por la nueva */
+									arrOldPass.set(posPass, usuarioActual.password);
+									usuarioActual.setOldPasswords(arrOldPass);
+								}
+								/***/
+								
+								usuarioActual.setChangePassword(new Date());
+								usuarioDao.update(usuarioActual);
+								return "";
+							}
+						} else {
+							return "Las contraseñas no coinciden";
+						}
+						
+					} catch (Exception e) {
+						return "Error al actualziar la contraseña";
 					}
-				} else {
-					return "Las contraseñas no coinciden";
+				}else{
+					return "La contraseña no puede ser igual al username";
 				}
-
-			} catch (Exception e) {
-				return "Error al actualziar la contraseña";
-			}
 		} else {
 			return "La contraseña debe ser almenos de 8 caracteres y contener una mayuscula y un numero";
 		}

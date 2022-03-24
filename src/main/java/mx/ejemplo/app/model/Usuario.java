@@ -1,5 +1,7 @@
 package mx.ejemplo.app.model;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Date;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
@@ -24,8 +26,9 @@ public class Usuario extends ReactivePanacheMongoEntity {
 	public String password;
 	public Estatus estatus;
 	public Date changePassword;
+	public ArrayList oldPasswords;
 
-	private static final long PASSWORD_EXPIRATION_TIME = 30L * 24L * 60L * 60L * 1000L; // 30 days
+    private static final long PASSWORD_EXPIRATION_TIME = 30L * 24L * 60L * 60L * 1000L; // 30 days
 
 	public boolean isPasswordExpired() {
 		if (this.changePassword == null){	return false;	}

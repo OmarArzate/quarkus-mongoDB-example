@@ -2,6 +2,7 @@ package mx.ejemplo.app.utils;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Array;
 import java.util.Base64;
 
 import javax.crypto.SecretKeyFactory;

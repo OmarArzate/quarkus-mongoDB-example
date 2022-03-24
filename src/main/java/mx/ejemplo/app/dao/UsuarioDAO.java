@@ -3,15 +3,15 @@ package mx.ejemplo.app.dao;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 import org.bson.types.ObjectId;
 
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import io.quarkus.panache.common.Sort;
-import mx.ejemplo.app.model.TRole;
 import mx.ejemplo.app.model.Usuario;
-import mx.ejemplo.app.utils.PBKDF2Encoder;
 
 @ApplicationScoped
 public class UsuarioDAO implements PanacheMongoRepository<Usuario>{
@@ -25,5 +25,20 @@ public class UsuarioDAO implements PanacheMongoRepository<Usuario>{
 	public Usuario findByUserName(String username) {
 		return  find("username", username ).firstResult();
 	}
+	
+	public List<String> agregaPass(String id){
+		ObjectId idO =new ObjectId(id);
+		
+		DBObject listItem = new BasicDBObject("password", "");
+        DBObject updateQuery = new BasicDBObject("$push", listItem);
+
+		Usuario u = new Usuario();
+		u.findById(idO);
+
+		update(u);
+
+        return null;
+
+	}	
 	
 }

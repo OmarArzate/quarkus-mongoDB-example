@@ -2,14 +2,11 @@ package mx.ejemplo.app.controller;
 
 import java.net.URI;
 
-import org.bson.types.ObjectId;
 import org.jboss.logging.Logger;
-import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -52,10 +49,8 @@ public class UsuarioController {
 		String mensaje = usuarioService.createUser(id, usuario);
 
 		if(mensaje == ""){
-			LOG.info("entro 1"+mensaje);
 			return Response.created(new URI("/" + usuario.id)).build();
 		}else{
-			LOG.info("entro 2"+mensaje);
 			return Response.ok(mensaje)
                     .status(Status.BAD_REQUEST).build();
 		}
