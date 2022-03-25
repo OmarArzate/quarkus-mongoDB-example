@@ -45,19 +45,21 @@ public class Authentication {
     public Response login(AuthRequest authRequest) {
         Usuario u = usuarioService.findByUserName(authRequest.username);
         LOG.info("usuario: " + authRequest.username);
-
+        String token;
         if (u != null && u.password.equals(passwordEncoder.encode(authRequest.getPassword()))) {
             if (u.isPasswordExpired()) {
                 return Response.ok("La contraseña expiro").status(Status.UNAUTHORIZED).build();
             } else {
+                LOG.info("token: " + u.username+" ....."+ u.rol+"...."+ duration+"...."+ issuer);
                 try {
-                    String token = TokenUtils.generateToken(u.username, u.rol, duration, issuer);
-                    LOG.info("token: " + token);
+                    token = TokenUtils.generateToken(u.username, u.rol, duration, issuer); 
+                    LOG.info("token: " + u.estatus);
                     return Response.ok(new AuthResponse(u.username, u.rol, token, u.estatus)).build();
                 } catch (Exception e) {
                     LOG.info("excepcion e: " + e);
                     return Response.status(Status.UNAUTHORIZED).build();
                 }
+               
             }
         } else {
             LOG.info("Error usuario == null o password != password");

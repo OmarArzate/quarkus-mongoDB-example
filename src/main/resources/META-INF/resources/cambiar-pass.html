@@ -7,24 +7,24 @@
   <!-- Load AngularJS -->
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script type="text/javascript">
-      var app = angular.module("LoginManagement", []);
+      var app = angular.module("CambiaPassManagement", []);
 
       //Controller Part
-      app.controller("LoginManagementController", function ($scope, $http) {
+      app.controller("CambiaPassManagementController", function ($scope, $http) {
 
         //Initialize page with default data which is blank in this example
         $scope.login = [];
 
         $scope.form = {
-          username: "",
-          password: ""
+          password: "",
+          passwordConf: ""
         };
 
         //Now load the data from server
         //HTTP POST methods for add products
-        $scope.inicia = function () {
-          var data = { "username": $scope.form.username,
-        		  "password": $scope.form.password};
+        $scope.cambiar = function () {
+          var data = { "password": $scope.form.password,
+        		  "passConfirmar": $scope.form.passwordConf};
           
           $http({
             method: "POST",
@@ -73,18 +73,18 @@
 <div class="container">
   <h1>LOG IN</h1>
 
-  <h3>Inicia sesion</h3>
-    <form ng-submit="inicia()">
+  <h3>CAmbiar contraseña</h3>
+    <form ng-submit="cambiar()">
 			<div class="row">
 				<div class="col-6">
-					<input type="text" placeholder=Username ng-model="form.username"
+					<input type="text" placeholder="Nueva Contraseña" ng-model="form.password"
 						size="60" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-6">
-					<input type="password" placeholder="Password"
-						ng-model="form.password" size="60" />
+					<input type="password" placeholder="Confirma Contraseña"
+						ng-model="form.passwordConf" size="60" />
 				</div>
 			</div>
 			<input type="submit" value="Log in"/>
